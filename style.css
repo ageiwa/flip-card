@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: sans-serif;
     text-transform: uppercase;
 }
@@ -42,10 +43,22 @@ body {
 }
 
 .playing-field {
+    padding: 10px;
     width: 800px;
     height: 500px;
     border: 1px solid #000;
     border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /*12 - 6x2, 24 - 8x3, 48 - 12x4*/
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.card {
+    /*margin: 10px;
+    width: 160px;
+    height: 200px;*/
+    border: 1px solid red;
 }
 
 .button-wrap {

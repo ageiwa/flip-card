@@ -1,3 +1,31 @@
 .card {
-    border: 1px solid red;
+    perspective: 900px;
+    position: relative;
+}
+
+.front-card, .back-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: transform .4s linear;
+}
+
+.front-card {
+    transform: rotateY(0deg);
+    background-color: blueviolet;
+}
+
+.back-card {
+    transform: rotateY(180deg);
+    background-color: royalblue;
+}
+
+.card:hover .front-card {
+    transform: rotateY(-180deg);
+}
+
+.card:hover .back-card {
+    transform: rotateY(0deg);
 }

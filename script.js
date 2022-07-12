@@ -19,6 +19,14 @@ btnStart.addEventListener('click', () => {
         const card = document.createElement('div');
         card.className = 'card';
         playingField.append(card);
+
+        const frontCard = document.createElement('div');
+        frontCard.className = 'front-card';
+        card.append(frontCard);
+
+        const backCard = document.createElement('div');
+        backCard.className = 'back-card';
+        card.append(backCard);
     }
 
 

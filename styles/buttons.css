@@ -1,0 +1,22 @@
+.button-wrap {
+    justify-content: space-between;
+}
+
+.button-wrap button {
+    width: 200px;
+    height: 100%;
+    font-size: 20px;
+}
+
+.button-wrap ul {
+    display: flex;
+    list-style: none;
+}
+
+.button-wrap li {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,0 +1,24 @@
+.time-wrap, .button-wrap {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 800px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.time-wrap img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    z-index: 1;
+}
+
+.timeline {
+    margin-left: -5px;
+    width: 750px;
+    height: 25px;
+    border: 1px solid #000;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

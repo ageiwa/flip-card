@@ -1,11 +1,24 @@
 const playingField = document.querySelector('.playing-field');
 const btnStart = document.querySelector('#btn-start');
+const radioBtns = document.querySelectorAll('.radio-btn');
 
 btnStart.addEventListener('click', () => {
-    for (let i = 0; i < 12; i++) {
+    let difficulty = 12;
+
+    for (let i = 0; i < radioBtns.length; i++) {
+        if (radioBtns[i].checked) {
+            difficulty = parseInt(radioBtns[i].value);
+        }
+    }
+
+    if (difficulty === 12) playingField.className = 'playing-field easy-mode';
+    else if (difficulty === 24) playingField.className = 'playing-field medium-mode';
+    else playingField.className = 'playing-field hard-mode';
+
+    for (let i = 0; i < difficulty; i++) {
         const card = document.createElement('div');
         card.className = 'card';
-        playingField.appendChild(card);
+        playingField.append(card);
     }
 
 

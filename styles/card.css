@@ -20,6 +20,9 @@
 .back-card {
     transform: rotateY(180deg);
     background-color: royalblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card:hover .front-card {
@@ -28,4 +31,9 @@
 
 .card:hover .back-card {
     transform: rotateY(0deg);
+}
+
+.icon-card {
+    width: 100%;
+    height: auto;
 }

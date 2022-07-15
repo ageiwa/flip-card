@@ -2,6 +2,9 @@ const playingField = document.querySelector('.playing-field');
 const btnStart = document.querySelector('#btn-start');
 const radioBtns = document.querySelectorAll('.radio-btn');
 
+let cardsForChecking = [];
+let timeoutClick = false;
+
 function randomSort(array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -93,28 +96,42 @@ btnStart.addEventListener('click', () => {
 });
 
 document.addEventListener('click', (e) => {
-    const backSideCards = chooseCards(e);
+    const frontCard = e.target;
 
-    if (backSideCards.length === 2) {
-        const identical = checkCards(backSideCards[0], backSideCards[1]);
-        const frontSideCards = [
-            backSideCards[0].previousSibling,
-            backSideCards[1].previousSibling
-        ];
+    if (frontCard.classList.contains('front-card') && !frontCard.classList.contains('front-rotate') && cardsForChecking.length < 2) {
+        const backCard = frontCard.nextSibling;
+        rotatingCard(frontCard, backCard);
 
-        console.log(backSideCards);
+        cardsForChecking.push(backCard);
+    }
 
-        if (identical) {
-            fadingCards(frontSideCards[0], backSideCards[0]);
-            fadingCards(frontSideCards[1], backSideCards[1]);
+    if (cardsForChecking.length === 2 && !timeoutClick) {
+        timeoutClick = true;
+
+        const isSame = checkCards(cardsForChecking[0], cardsForChecking[1]);
+
+        const frontCheckingCard1 = cardsForChecking[0].previousElementSibling;
+        const backChekingCard1 = cardsForChecking[0];
+
+        const frontCheckingCard2 = cardsForChecking[1].previousElementSibling;
+        const backChekingCard2 = cardsForChecking[1];
+
+        if (isSame) {
+            fadingCards(frontCheckingCard1, backChekingCard1);
+            fadingCards(frontCheckingCard2, backChekingCard2);
         }
         else {
             setTimeout(() => {
-                rotatingCard(frontSideCards[0], backSideCards[0]);
-                rotatingCard(frontSideCards[1], backSideCards[1]);
+                rotatingCard(frontCheckingCard1, backChekingCard1);
+                rotatingCard(frontCheckingCard2, backChekingCard2);
+
+                cardsForChecking = [];
+                timeoutClick = false;
             }, 1000);
         }
     }
+
+    
 });
 
 function fadingCards(frontCard, backCard) {
@@ -122,6 +139,9 @@ function fadingCards(frontCard, backCard) {
         setTimeout(() => {
             frontCard.classList.add('fading');
             backCard.classList.add('fading');
+
+            cardsForChecking = [];
+            timeoutClick = false;
 
             resolve();
         }, 1000)
@@ -140,13 +160,13 @@ function fadingCards(frontCard, backCard) {
 function chooseCards(e) {
     const frontCard = e.target;
 
-    if (frontCard.classList.contains('front-card')) {
+    if (frontCard.classList.contains('front-card') && !timeoutClick) {
         const backCard = frontCard.nextSibling;
 
         rotatingCard(frontCard, backCard);
-    }
 
-    return document.querySelectorAll('.back-rotate');
+        return document.querySelectorAll('.back-rotate');
+    }
 }
 
 function rotatingCard(frontCard, backCard) {

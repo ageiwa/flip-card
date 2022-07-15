@@ -9,7 +9,7 @@
     border-radius: 5px;
     position: absolute;
     backface-visibility: hidden;
-    transition: transform .4s linear;
+    transition: transform .4s linear, opacity .4s linear;
 }
 
 .front-card {
@@ -25,12 +25,16 @@
     align-items: center;
 }
 
-.card:hover .front-card {
+ .front-rotate {
     transform: rotateY(-180deg);
 }
 
-.card:hover .back-card {
+.back-rotate {
     transform: rotateY(0deg);
+}
+
+.fading {
+    opacity: 0;
 }
 
 .icon-card {

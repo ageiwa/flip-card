@@ -90,6 +90,73 @@ btnStart.addEventListener('click', () => {
 
         randomSortCards = randomSort(randomSortCards);
     }
-
-
 });
+
+document.addEventListener('click', (e) => {
+    const backSideCards = chooseCards(e);
+
+    if (backSideCards.length === 2) {
+        const identical = checkCards(backSideCards[0], backSideCards[1]);
+        const frontSideCards = [
+            backSideCards[0].previousSibling,
+            backSideCards[1].previousSibling
+        ];
+
+        console.log(backSideCards);
+
+        if (identical) {
+            fadingCards(frontSideCards[0], backSideCards[0]);
+            fadingCards(frontSideCards[1], backSideCards[1]);
+        }
+        else {
+            setTimeout(() => {
+                rotatingCard(frontSideCards[0], backSideCards[0]);
+                rotatingCard(frontSideCards[1], backSideCards[1]);
+            }, 1000);
+        }
+    }
+});
+
+function fadingCards(frontCard, backCard) {
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            frontCard.classList.add('fading');
+            backCard.classList.add('fading');
+
+            resolve();
+        }, 1000)
+    });
+
+    promise.then(
+        result => {
+            setTimeout(() => {
+                frontCard.remove();
+                backCard.remove();
+            }, 1000);
+        }
+    );
+}
+
+function chooseCards(e) {
+    const frontCard = e.target;
+
+    if (frontCard.classList.contains('front-card')) {
+        const backCard = frontCard.nextSibling;
+
+        rotatingCard(frontCard, backCard);
+    }
+
+    return document.querySelectorAll('.back-rotate');
+}
+
+function rotatingCard(frontCard, backCard) {
+    frontCard.classList.toggle('front-rotate');
+    backCard.classList.toggle('back-rotate');
+}
+
+function checkCards(card1, card2) {
+    const icon1 = card1.firstChild;
+    const icon2 = card2.firstChild;
+
+    return icon1.src === icon2.src;
+}

@@ -2,8 +2,9 @@ const playingField = document.querySelector('.playing-field');
 const btnStart = document.querySelector('#btn-start');
 const radioBtns = document.querySelectorAll('.radio-btn');
 
-let cardsForChecking = [];
-let timeoutClick = false;
+let cardsForChecking = [],
+    timeoutClick = false,
+    timeValue = 5;
 
 function randomSort(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -55,7 +56,31 @@ function selectingCardsForGame(difficulty) {
     return cardsByDifficulty;
 }
 
+function startTime() {
+    timeValue -= 1/60;
+
+    const timeline = document.querySelector('.timeline');
+    let progress = (100 * timeValue) / 5;
+
+    timeline.style.backgroundImage = 'linear-gradient(90deg, #47aadd ' + progress + '%, #fff ' + progress +'%)';
+
+    if (timeValue <= 0) {
+        alert('Время вышло!');
+
+        const numCards = playingField.childElementCount;
+
+        for (let i = 0; i < numCards; i++) {
+            playingField.firstChild.remove();
+        }
+    }
+    else setTimeout(() => startTime(), 1000/60);
+}
+
 btnStart.addEventListener('click', () => {
+    timeValue = 5;
+
+    startTime();
+
     let difficulty = 6;
 
     for (let i = 0; i < radioBtns.length; i++) {

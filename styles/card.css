@@ -14,12 +14,11 @@
 
 .front-card {
     transform: rotateY(0deg);
-    background-color: blueviolet;
+    background-color: #CD853F;
 }
 
 .back-card {
     transform: rotateY(180deg);
-    background-color: royalblue;
     display: flex;
     justify-content: center;
     align-items: center;

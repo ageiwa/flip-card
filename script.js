@@ -66,7 +66,7 @@ function startTime() {
     const timeline = document.querySelector('.timeline');
     let progress = (100 * timeValue) / 180;
 
-    timeline.style.backgroundImage = 'linear-gradient(90deg, #47aadd ' + progress + '%, #fff ' + progress +'%)';
+    timeline.style.backgroundImage = 'linear-gradient(90deg, #FF6347 ' + progress + '%, #ffcc73 ' + progress +'%)';
 
     if (timeValue <= 0) gameOver = "ПОРАЖЕНИЕ!";
 

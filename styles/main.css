@@ -8,12 +8,14 @@
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
+    font-weight: 700;
     text-transform: uppercase;
 }
 
 body {
     width: 100vw;
     height: 100vh;
+    background-color: #20B2AA;
     display: flex;
     flex-direction: column;
     align-items: center;

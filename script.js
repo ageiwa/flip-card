@@ -2,9 +2,12 @@ const playingField = document.querySelector('.playing-field');
 const btnStart = document.querySelector('#btn-start');
 const radioBtns = document.querySelectorAll('.radio-btn');
 
-let cardsForChecking = [],
+let difficulty = 6,
+    cardsForChecking = [],
     timeoutClick = false,
-    timeValue = 5;
+    timeValue = 300,
+    cardsCount = 0,
+    gameOver = '';
 
 function randomSort(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -60,28 +63,30 @@ function startTime() {
     timeValue -= 1/60;
 
     const timeline = document.querySelector('.timeline');
-    let progress = (100 * timeValue) / 5;
+    let progress = (100 * timeValue) / 300;
 
     timeline.style.backgroundImage = 'linear-gradient(90deg, #47aadd ' + progress + '%, #fff ' + progress +'%)';
 
-    if (timeValue <= 0) {
-        alert('Время вышло!');
+    if (timeValue <= 0) gameOver = "Вы проиграли!";
 
-        const numCards = playingField.childElementCount;
-
-        for (let i = 0; i < numCards; i++) {
-            playingField.firstChild.remove();
-        }
-    }
+    if (gameOver) clearField(gameOver);
     else setTimeout(() => startTime(), 1000/60);
 }
 
+function clearField(alertText) {
+    alert(alertText);
+
+    const numCards = playingField.childElementCount;
+
+    for (let i = 0; i < numCards; i++) {
+        playingField.firstChild.remove();
+    }
+}
+
 btnStart.addEventListener('click', () => {
-    timeValue = 5;
+    timeValue = 300;
 
     startTime();
-
-    let difficulty = 6;
 
     for (let i = 0; i < radioBtns.length; i++) {
         if (radioBtns[i].checked) {
@@ -144,6 +149,10 @@ document.addEventListener('click', (e) => {
         if (isSame) {
             fadingCards(frontCheckingCard1, backChekingCard1);
             fadingCards(frontCheckingCard2, backChekingCard2);
+
+            cardsCount++;
+
+            if (difficulty === cardsCount) gameOver = 'Вы выиграли!';
         }
         else {
             setTimeout(() => {

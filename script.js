@@ -5,7 +5,7 @@ const radioBtns = document.querySelectorAll('.radio-btn');
 let difficulty = 6,
     cardsForChecking = [],
     timeoutClick = false,
-    timeValue = 300,
+    timeValue = 180,
     cardsCount = 0,
     gameOver = '';
 
@@ -63,13 +63,13 @@ function startTime() {
     timeValue -= 1/60;
 
     const timeline = document.querySelector('.timeline');
-    let progress = (100 * timeValue) / 300;
+    let progress = (100 * timeValue) / 180;
 
     timeline.style.backgroundImage = 'linear-gradient(90deg, #47aadd ' + progress + '%, #fff ' + progress +'%)';
 
     if (timeValue <= 0) gameOver = "Вы проиграли!";
 
-    if (gameOver) clearField(gameOver);
+    if (gameOver !== '') clearField(gameOver);
     else setTimeout(() => startTime(), 1000/60);
 }
 
@@ -81,10 +81,12 @@ function clearField(alertText) {
     for (let i = 0; i < numCards; i++) {
         playingField.firstChild.remove();
     }
+
+    gameOver = '';
 }
 
 btnStart.addEventListener('click', () => {
-    timeValue = 300;
+    timeValue = 180;
 
     startTime();
 

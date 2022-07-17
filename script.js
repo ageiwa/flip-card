@@ -7,6 +7,7 @@ let difficulty = 6,
     timeoutClick = false,
     timeValue = 180,
     cardsCount = 0,
+    gameStart = false,
     gameOver = '';
 
 function randomSort(array) {
@@ -67,28 +68,37 @@ function startTime() {
 
     timeline.style.backgroundImage = 'linear-gradient(90deg, #47aadd ' + progress + '%, #fff ' + progress +'%)';
 
-    if (timeValue <= 0) gameOver = "Вы проиграли!";
+    if (timeValue <= 0) gameOver = "ПОРАЖЕНИЕ!";
 
-    if (gameOver !== '') clearField(gameOver);
+    if (gameOver !== '') {
+        alert(gameOver);
+        clearField();
+        gameOver = '';
+        gameStart = false;
+        timeValue = 180;
+        btnStart.textContent = 'START';
+    }
     else setTimeout(() => startTime(), 1000/60);
 }
 
-function clearField(alertText) {
-    alert(alertText);
-
+function clearField() {
     const numCards = playingField.childElementCount;
 
     for (let i = 0; i < numCards; i++) {
         playingField.firstChild.remove();
     }
-
-    gameOver = '';
 }
 
 btnStart.addEventListener('click', () => {
-    timeValue = 180;
+    btnStart.textContent = 'RESTART';
 
-    startTime();
+    if (gameStart) {
+        clearField();
+        timeValue = 180;
+    }
+    else {
+        startTime();
+    }
 
     for (let i = 0; i < radioBtns.length; i++) {
         if (radioBtns[i].checked) {
@@ -125,6 +135,8 @@ btnStart.addEventListener('click', () => {
 
         randomSortCards = randomSort(randomSortCards);
     }
+
+    gameStart = true;
 });
 
 document.addEventListener('click', (e) => {
@@ -154,7 +166,14 @@ document.addEventListener('click', (e) => {
 
             cardsCount++;
 
-            if (difficulty === cardsCount) gameOver = 'Вы выиграли!';
+            if (difficulty === cardsCount) {
+                clearField();
+                gameOver = '';
+                gameStart = false;
+                timeValue = 180;
+                btnStart.textContent = 'START';
+                gameOver = 'ПОБЕДА!';
+            }
         }
         else {
             setTimeout(() => {

@@ -1,4 +1,4 @@
-.time-wrap, .button-wrap {
+.time-wrap {
     margin-top: 20px;
     margin-bottom: 20px;
     width: 800px;
@@ -18,6 +18,7 @@
     margin-left: -5px;
     width: 750px;
     height: 25px;
+    border: 2px solid #8B4513;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background-image: linear-gradient(90deg, #FF6347 100%, #ffcc73 100%);

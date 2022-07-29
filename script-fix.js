@@ -45,18 +45,34 @@ for (let i = 0; i < radioBtns.length; i++) {
     radioBtns[i].addEventListener('click', () => chooseDifficulty(i));
 }
 
+function startGame() {
+    clearField();
+
+    cardsForGame = selectingCardsByDifficulty(cards);
+    outputCards(cardsForGame);
+    setStylesForPlayingField(difficulty);
+
+    btnStart.textContent = 'RESTART';
+
+    console.log(playingField.childElementCount);
+}
+
 function chooseDifficulty(i) {
     difficulty = parseInt(radioBtns[i].value);
+}
 
+function clearField() {
+    const card = document.querySelectorAll('.card');
+
+    for (let i = 0; i < card.length; i++) {
+        card[i].remove();
+    }
+}
+
+function setStylesForPlayingField(difficulty) {
     if (difficulty === 6) playingField.className = 'playing-field easy-mode';
     else if (difficulty === 12) playingField.className = 'playing-field medium-mode';
     else playingField.className = 'playing-field hard-mode';
-}
-
-function startGame() {
-    cardsForGame = selectingCardsByDifficulty(cards);
-    outputCards(cardsForGame);
-    
 }
 
 function outputCards(cardsForGame) {

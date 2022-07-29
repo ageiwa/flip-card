@@ -32,6 +32,7 @@ randomSort(cards);
 /*states*/
 let difficulty = 6,
     timeValue = 180,
+    timeIsStart = false,
     cardsForGame = [];
 
 /*elem*/
@@ -52,13 +53,27 @@ function startGame() {
     outputCards(cardsForGame);
     setStylesForPlayingField(difficulty);
 
-    btnStart.textContent = 'RESTART';
+    timeValue = 180;
+    if (!timeIsStart) tikTakTime();
+    timeIsStart = true;
 
-    console.log(playingField.childElementCount);
+    btnStart.textContent = 'RESTART';
 }
 
 function chooseDifficulty(i) {
     difficulty = parseInt(radioBtns[i].value);
+}
+
+function tikTakTime() {
+    timeValue -= 1/60;
+
+    const timeline = document.querySelector('.timeline');
+    let progress = (100 * timeValue) / 180;
+
+    timeline.style.backgroundImage = 'linear-gradient(90deg, #FF6347 ' + progress + '%, #ffcc73 ' + progress +'%)';
+
+    setTimeout(() => tikTakTime(), 1000/60);
+    
 }
 
 function clearField() {

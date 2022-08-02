@@ -45,6 +45,7 @@ btnStart.addEventListener('click', startGame);
 for (let i = 0; i < radioBtns.length; i++) {
     radioBtns[i].addEventListener('click', () => chooseDifficulty(i));
 }
+document.onclick = selectCard;
 
 function startGame() {
     clearField();
@@ -60,6 +61,15 @@ function startGame() {
     btnStart.textContent = 'RESTART';
 }
 
+function selectCard(e) {
+    if (e.target.classList.contains('front-card')) {
+        const frontCard = e.target;
+        const backCard = frontCard.nextSibling;
+
+        rotateCard(frontCard, backCard);
+    }
+}
+
 function chooseDifficulty(i) {
     difficulty = parseInt(radioBtns[i].value);
 }
@@ -73,7 +83,6 @@ function tikTakTime() {
     timeline.style.backgroundImage = 'linear-gradient(90deg, #FF6347 ' + progress + '%, #ffcc73 ' + progress +'%)';
 
     setTimeout(() => tikTakTime(), 1000/60);
-    
 }
 
 function clearField() {
@@ -126,6 +135,11 @@ function selectingCardsByDifficulty(array) {
     }
 
     return cards;
+}
+
+function rotateCard(frontCard, backCard) {
+    frontCard.classList.toggle('front-rotate');
+    backCard.classList.toggle('back-rotate');
 }
 
 function randomSort(array) {

@@ -68,6 +68,27 @@ function selectCard(e) {
 
         rotateCard(frontCard, backCard);
     }
+
+    const rotatingCards = document.querySelectorAll('.back-rotate');
+    let sameCards = false;
+
+    if (rotatingCards.length === 2) {
+        sameCards = checkingCards(rotatingCards[0], rotatingCards[1]);
+
+        if (!sameCards) {
+            setTimeout(() => {
+                rotateCard(rotatingCards[0].previousElementSibling, rotatingCards[0]);
+                rotateCard(rotatingCards[1].previousElementSibling, rotatingCards[1]);
+            }, 1000);
+        }
+    }
+}
+
+function checkingCards(card1, card2) {
+    const pic1 = card1.firstChild;
+    const pic2 = card2.firstChild;
+
+    return pic1.src === pic2.src;
 }
 
 function chooseDifficulty(i) {

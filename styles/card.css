@@ -12,12 +12,12 @@
     transition: transform .4s linear, opacity .4s linear;
 }
 
-.front-card {
+.back-card {
     transform: rotateY(0deg);
     background-color: #CD853F;
 }
 
-.back-card {
+.front-card {
     border: 3px solid #8B4513;
     transform: rotateY(180deg);
     display: flex;
@@ -25,11 +25,11 @@
     align-items: center;
 }
 
- .front-rotate {
+ .back-rotate {
     transform: rotateY(-180deg);
 }
 
-.back-rotate {
+.front-rotate {
     transform: rotateY(0deg);
 }
 

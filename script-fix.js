@@ -62,14 +62,14 @@ function startGame() {
 }
 
 function selectCard(e) {
-    if (e.target.classList.contains('front-card')) {
-        const frontCard = e.target;
-        const backCard = frontCard.nextSibling;
+    if (e.target.classList.contains('back-card')) {
+        const backCard = e.target;
+        const frontCard = backCard.nextSibling;
 
-        rotateCard(frontCard, backCard);
+        rotateToFrontCard(backCard, frontCard);
     }
 
-    const rotatingCards = document.querySelectorAll('.back-rotate');
+    const rotatingCards = document.querySelectorAll('.front-rotate');
     let sameCards = false;
 
     if (rotatingCards.length === 2) {
@@ -77,11 +77,26 @@ function selectCard(e) {
 
         if (!sameCards) {
             setTimeout(() => {
-                rotateCard(rotatingCards[0].previousElementSibling, rotatingCards[0]);
-                rotateCard(rotatingCards[1].previousElementSibling, rotatingCards[1]);
+                rotateToBackCard(rotatingCards[0].previousElementSibling, rotatingCards[0]);
+                rotateToBackCard(rotatingCards[1].previousElementSibling, rotatingCards[1]);
+            }, 1000);
+        }
+        else {
+            setTimeout(() => {
+                removeSameCards(rotatingCards[0], rotatingCards[1]);
             }, 1000);
         }
     }
+}
+
+function removeSameCards(card1, card2) {
+    card1.classList.add('fading');
+    card2.classList.add('fading');
+
+    setTimeout(() => {
+        card1.remove();
+        card2.remove();
+    }, 1000);
 }
 
 function checkingCards(card1, card2) {
@@ -127,19 +142,19 @@ function outputCards(cardsForGame) {
             card.className = 'card';
             playingField.append(card);
     
-            const frontCard = document.createElement('div');
-            frontCard.className = 'front-card';
-            card.append(frontCard);
-    
             const backCard = document.createElement('div');
             backCard.className = 'back-card';
-            backCard.style.backgroundColor = cardsForGame[i].bColor;
             card.append(backCard);
+    
+            const frontCard = document.createElement('div');
+            frontCard.className = 'front-card';
+            frontCard.style.backgroundColor = cardsForGame[i].bColor;
+            card.append(frontCard);
 
             const icon = document.createElement('img');
             icon.className = 'icon-card';
             icon.src = cardsForGame[i].src;
-            backCard.append(icon);
+            frontCard.append(icon);
         }
 
         cardsForGame = randomSort(cardsForGame);
@@ -158,9 +173,14 @@ function selectingCardsByDifficulty(array) {
     return cards;
 }
 
-function rotateCard(frontCard, backCard) {
-    frontCard.classList.toggle('front-rotate');
-    backCard.classList.toggle('back-rotate');
+function rotateToFrontCard(backCard, frontCard) {
+    backCard.classList.add('back-rotate');
+    frontCard.classList.add('front-rotate');
+}
+
+function rotateToBackCard(backCard, frontCard) {
+    backCard.classList.remove('back-rotate');
+    frontCard.classList.remove('front-rotate');
 }
 
 function randomSort(array) {

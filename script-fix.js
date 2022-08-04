@@ -33,6 +33,7 @@ randomSort(cards);
 let difficulty = 6,
     timeValue = 180,
     timeIsStart = false,
+    checking = false,
     cardsForGame = [];
 
 /*elem*/
@@ -62,7 +63,7 @@ function startGame() {
 }
 
 function selectCard(e) {
-    if (e.target.classList.contains('back-card')) {
+    if (e.target.classList.contains('back-card') && !checking) {
         const backCard = e.target;
         const frontCard = backCard.nextSibling;
 
@@ -74,16 +75,19 @@ function selectCard(e) {
 
     if (rotatingCards.length === 2) {
         sameCards = checkingCards(rotatingCards[0], rotatingCards[1]);
+        checking = true;
 
         if (!sameCards) {
             setTimeout(() => {
                 rotateToBackCard(rotatingCards[0].previousElementSibling, rotatingCards[0]);
                 rotateToBackCard(rotatingCards[1].previousElementSibling, rotatingCards[1]);
+                checking = false;
             }, 1000);
         }
         else {
             setTimeout(() => {
                 removeSameCards(rotatingCards[0], rotatingCards[1]);
+                checking = false;
             }, 1000);
         }
     }
@@ -96,7 +100,7 @@ function removeSameCards(card1, card2) {
     setTimeout(() => {
         card1.remove();
         card2.remove();
-    }, 1000);
+    }, 500);
 }
 
 function checkingCards(card1, card2) {

@@ -33,7 +33,9 @@ randomSort(cards);
 let difficulty = 6,
     timeValue = 180,
     timeIsStart = false,
+    gameEnd = false,
     checking = false,
+    removingCards = 0,
     cardsForGame = [];
 
 /*elem*/
@@ -53,15 +55,34 @@ function startGame() {
     clearField();
 
     textWrap.classList.add('text-wrap-disable');
+    setTimeout(() => {
+        textWrap.style.zIndex = '0';
+    }, 500);
     btnStart.textContent = 'RESTART';
 
     cardsForGame = selectingCardsByDifficulty(cards);
     outputCards(cardsForGame);
     setStylesForPlayingField(difficulty);
 
+    gameEnd = false;
+    removingCards = 0;
+
     timeValue = 180;
     if (!timeIsStart) tikTakTime();
     timeIsStart = true;
+}
+
+function youWin(isWin) {
+    textWrap.style.zIndex = '1';
+
+    gameEnd = true;
+    timeIsStart = false;
+
+    const textWin = document.querySelector('.text');
+    if (isWin) textWin.textContent = 'YOU WIN!';
+    else textWin.textContent = 'YOU LOSE!';
+
+    textWrap.classList.remove('text-wrap-disable');
 }
 
 function selectCard(e) {
@@ -70,27 +91,27 @@ function selectCard(e) {
         const frontCard = backCard.nextSibling;
 
         rotateToFrontCard(backCard, frontCard);
-    }
 
-    const rotatingCards = document.querySelectorAll('.front-rotate');
-    let sameCards = false;
+        const rotatingCards = document.querySelectorAll('.front-rotate');
+        let sameCards = false;
 
-    if (rotatingCards.length === 2) {
-        sameCards = checkingCards(rotatingCards[0], rotatingCards[1]);
-        checking = true;
+        if (rotatingCards.length === 2) {
+            sameCards = checkingCards(rotatingCards[0], rotatingCards[1]);
+            checking = true;
 
-        if (!sameCards) {
-            setTimeout(() => {
-                rotateToBackCard(rotatingCards[0].previousElementSibling, rotatingCards[0]);
-                rotateToBackCard(rotatingCards[1].previousElementSibling, rotatingCards[1]);
-                checking = false;
-            }, 1000);
-        }
-        else {
-            setTimeout(() => {
-                removeSameCards(rotatingCards[0], rotatingCards[1]);
-                checking = false;
-            }, 1000);
+            if (!sameCards) {
+                setTimeout(() => {
+                    rotateToBackCard(rotatingCards[0].previousElementSibling, rotatingCards[0]);
+                    rotateToBackCard(rotatingCards[1].previousElementSibling, rotatingCards[1]);
+                    checking = false;
+                }, 1000);
+            }
+            else {
+                setTimeout(() => {
+                    removeSameCards(rotatingCards[0], rotatingCards[1]);
+                    checking = false;
+                }, 1000);
+            }
         }
     }
 }
@@ -102,6 +123,10 @@ function removeSameCards(card1, card2) {
     setTimeout(() => {
         card1.remove();
         card2.remove();
+
+        removingCards++;
+
+        if (removingCards === difficulty) youWin(true);
     }, 500);
 }
 
@@ -124,7 +149,10 @@ function tikTakTime() {
 
     timeline.style.backgroundImage = 'linear-gradient(90deg, #FF6347 ' + progress + '%, #ffcc73 ' + progress +'%)';
 
-    setTimeout(() => tikTakTime(), 1000/60);
+    if (timeValue <= 0) youWin(false);
+
+    if (!gameEnd) setTimeout(() => tikTakTime(), 1000/60);
+    else return;
 }
 
 function clearField() {
@@ -145,7 +173,7 @@ function outputCards(cardsForGame) {
     for (let i = 0; i < 2; i++) {
         for (let i = 0; i < difficulty; i++) {
             const card = document.createElement('div');
-            card.className = 'card fading';
+            card.className = 'card';
             playingField.append(card);
     
             const backCard = document.createElement('div');
@@ -165,14 +193,6 @@ function outputCards(cardsForGame) {
 
         cardsForGame = randomSort(cardsForGame);
     }
-
-    setTimeout(() => {
-        const cards = document.querySelectorAll('.card');
-
-        for (let i = 0; i < cards.length; i++) {
-            cards[i].classList.remove('fading');
-        }
-    }, 500);
 }
 
 function selectingCardsByDifficulty(array) {

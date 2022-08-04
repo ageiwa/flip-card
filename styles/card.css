@@ -1,7 +1,6 @@
 .card {
     perspective: 900px;
     position: relative;
-    transition: opacity .4s linear;
 }
 
 .front-card, .back-card {

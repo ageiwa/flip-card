@@ -34,6 +34,7 @@
     justify-content: center;
     position: absolute;
     transition: opacity .4s linear;
+    z-index: 1;
 }
 
 .text {

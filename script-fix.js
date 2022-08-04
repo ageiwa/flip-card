@@ -38,6 +38,7 @@ let difficulty = 6,
 
 /*elem*/
 const playingField = document.querySelector('.playing-field');
+const textWrap = document.querySelector('.text-wrap');
 const btnStart = document.querySelector('#btn-start');
 const radioBtns = document.querySelectorAll('.radio-btn');
 
@@ -51,6 +52,9 @@ document.onclick = selectCard;
 function startGame() {
     clearField();
 
+    textWrap.classList.add('text-wrap-disable');
+    btnStart.textContent = 'RESTART';
+
     cardsForGame = selectingCardsByDifficulty(cards);
     outputCards(cardsForGame);
     setStylesForPlayingField(difficulty);
@@ -58,8 +62,6 @@ function startGame() {
     timeValue = 180;
     if (!timeIsStart) tikTakTime();
     timeIsStart = true;
-
-    btnStart.textContent = 'RESTART';
 }
 
 function selectCard(e) {
@@ -143,7 +145,7 @@ function outputCards(cardsForGame) {
     for (let i = 0; i < 2; i++) {
         for (let i = 0; i < difficulty; i++) {
             const card = document.createElement('div');
-            card.className = 'card';
+            card.className = 'card fading';
             playingField.append(card);
     
             const backCard = document.createElement('div');
@@ -163,6 +165,14 @@ function outputCards(cardsForGame) {
 
         cardsForGame = randomSort(cardsForGame);
     }
+
+    setTimeout(() => {
+        const cards = document.querySelectorAll('.card');
+
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].classList.remove('fading');
+        }
+    }, 500);
 }
 
 function selectingCardsByDifficulty(array) {

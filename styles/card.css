@@ -23,6 +23,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
  .back-rotate {
@@ -38,6 +39,6 @@
 }
 
 .icon-card {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
 }
